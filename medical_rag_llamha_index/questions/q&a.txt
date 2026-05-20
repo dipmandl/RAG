@@ -1,0 +1,117 @@
+Medical RAG Project – Interview Questions & Answers
+1. What is this project about?
+This project is a Medical Retrieval-Augmented Generation (RAG) system built using LlamaIndex. 
+It allows users to upload medical documents and ask questions. 
+The system retrieves relevant sections from documents using embeddings and 
+then generates answers using a local LLM (Ollama).
+
+2. What is RAG?
+RAG stands for Retrieval-Augmented Generation. It combines:
+Retrieval: Fetch relevant documents using vector similarity search
+Generation: Use an LLM to generate answers based on retrieved context
+It improves accuracy and reduces hallucination in LLM responses.
+
+
+3. Why did you use LlamaIndex?
+LlamaIndex is used because it:
+Simplifies building RAG pipelines
+Handles document loading, chunking, and indexing
+Provides integration with LLMs and embedding models
+Supports persistent vector storage
+
+4. What embedding model are you using and why?
+I am using:
+BAAI/bge-small-en-v1.5
+Because:
+It is lightweight and fast
+Produces high-quality semantic embeddings
+Works well for medical text similarity tasks
+Can run locally without API cost
+
+5. What is the role of embeddings in your project?
+Embeddings convert text into numerical vectors so that:
+Similar meanings have closer vector distances
+The system can perform semantic search
+Relevant medical document chunks can be retrieved based on meaning, not keywords
+
+6. Why did you use Ollama instead of OpenAI?
+I used Ollama because:
+It runs models locally (no API cost)
+Ensures data privacy (important for medical data)
+Reduces dependency on external services
+Supports models like Llama 3 for good reasoning capability
+
+7. What is the workflow of your system?
+The workflow is:
+Load medical documents
+Split into chunks
+Convert chunks into embeddings
+Store embeddings in vector index
+User asks a question
+Retrieve top similar chunks
+Send context + question to LLM
+Generate final answer
+
+8. What is chunking and why is it important?
+Chunking means splitting large documents into smaller parts.
+It is important because:
+LLMs have token limits
+Smaller chunks improve retrieval accuracy
+Helps in better semantic matching
+
+9. What is similarity_top_k?
+It defines how many relevant chunks are retrieved from the vector database.
+similarity_top_k=5
+Means top 5 most relevant document chunks are passed to the LLM.
+
+10. What is PromptTemplate used for?
+It defines how the LLM should behave and structure responses.
+It includes:
+Context injection (context_str)
+User question (query_str)
+Instructions for tone and format
+It helps control output quality and reduces hallucination.
+
+11. What problem did you face initially?
+Initially, the system:
+Returned vague answers
+Sometimes read binary or incorrect file content
+Had poor retrieval quality
+This was fixed by:
+Improving chunking strategy
+Cleaning dataset
+Using better prompt templates
+
+12. What are limitations of your current system?
+No OCR support for scanned PDFs
+No reranking model yet
+No conversational memory
+Depends on quality of input documents
+Local LLM may be slower than cloud APIs
+
+13. How can this project be improved?
+Future improvements:
+Add ChromaDB or FAISS for better vector storage
+Add reranking models for better retrieval accuracy
+Add Streamlit UI for chatbot interface
+Add OCR for scanned medical reports
+Add citation-based answers
+Use larger embedding models for better accuracy
+
+14. Why is RAG better than fine-tuning for this use case?
+RAG is better because:
+No need to retrain model
+Easier to update knowledge base
+More cost-efficient
+Works well with domain-specific data like medical documents
+Reduces hallucinations by grounding answers in real data
+
+15. What happens if context is not found?
+If relevant context is not found in the vector database, the LLM:
+Either says it cannot find information
+Or generates a generic response
+To improve this, we use prompt instructions to force grounding.
+
+Explain your architecture in one line.
+A local RAG pipeline using LlamaIndex where HuggingFace embeddings retrieve medical 
+context and Ollama LLM generates context-grounded answers from stored documents.
